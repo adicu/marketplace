@@ -1,5 +1,4 @@
 # Specification
-
 MARKETPLACE by ADI Labs
 
 Marketplace is an application by ADI Labs for Columbia/Barnard students to provide them with a forum to buy and sell books and other resources.

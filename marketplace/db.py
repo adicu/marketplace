@@ -1,22 +1,14 @@
-from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-db = SQLAlchemy(app)
+engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-class User(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.String(100), unique=True)
-	email = db.Column(db.String(200), unique=True)
-	name = db.Column(db.String(100), unique=True)
-	percent = db.Column(db.Integer)
+Base = declarative_base()
+Base.query = db_session.query_property()
 
-	def __init__(self, user_id, email, name, percent):
-		self.user_id = user_id
-		self.email = email
-		self.name = name
-		self.percent = percent
-
-	def __repr__(self):
-		return '<User %r>' % self.user_id
+def init_db():
+	# Import needed models here
+	import models
+	Base.metadata.create_all(bind=engine)

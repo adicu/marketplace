@@ -26,7 +26,7 @@ apt-get update
 # Install SQLite
 apt-get install -y sqlite3
 apt-get install -y libsqlite3-dev
-
+	
 # Install Python libraries
 pip install -r /vagrant/config/requirements.txt
 pip install flake8 # For local testing

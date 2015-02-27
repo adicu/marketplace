@@ -1,6 +1,8 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from db import Base
+from db import db_session
+
+from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
 
 class User(db.Model):
@@ -24,9 +26,9 @@ class User(db.Model):
 
 class Item(db.Model):
     id = Column(Integer, primary_key=True)
-    user_id = Column(String(100))
-    item_name = Column(String(200))
-    item_description = Column(String(2000))
+    user_id = Column(String(50))
+    item_name = Column(String(200), unique=False)
+    item_description = Column(String(2000), unique=False)
     price = Column(Float)
 
 

@@ -31,6 +31,7 @@ apt-get install -y libsqlite3-dev
 pip install -r /vagrant/config/requirements.txt
 pip install flake8 # For local testing
 pip install SQLAlchemy # Install SQLAlchemy
+pip install flask-restful # Request parsing
 
 # Install Vim
-install vim
+apt-get install vim

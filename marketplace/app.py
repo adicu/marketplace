@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, render_template, json, request
 from db import db_session
+from flask.ext.sqlalchemy import SQLAlchemy
+from app import models
+
 
 app = Flask(__name__)
 
@@ -8,7 +11,7 @@ app.config.update(
 	DEBUG=True,
 	HOST='0.0.0.0'
 )
-
+db = SQLAlchemy(marketplace)
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

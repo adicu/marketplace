@@ -15,5 +15,8 @@ app.config.update(
 def index():
 	return "Marketplace"
 
+@app.route('/auth')
+def auth():
+	
 if __name__ == '__main__':
 	app.run(host=app.config['HOST'])

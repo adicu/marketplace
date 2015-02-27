@@ -1,9 +1,11 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from db import Base
 from db import db_session
 
-class User(Base):
-    __tablename__ = 'users'
+from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
+
+
+class User(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(String(100), unique=True)
     email = Column(String(200), unique=True)
@@ -22,12 +24,11 @@ class User(Base):
         return '<User %r>' % self.user_id
 
 
-class Item(Base):
-    __tablename__ = 'items'
+class Item(db.Model):
     id = Column(Integer, primary_key=True)
-    user_id = Column(String, ForeignKey('users.user_id'))
-    item_name = Column(String(200), unique=True)
-    item_description = Column(String(2000), unique=True)
+    user_id = Column(String(50))
+    item_name = Column(String(200), unique=False)
+    item_description = Column(String(2000), unique=False)
     price = Column(Float)
 
 

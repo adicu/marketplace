@@ -1,6 +1,10 @@
 from flask import Flask, jsonify, render_template, json, request
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.restful import reqparse # Parse through requests
+import re # For regular expressions
 
+# From Density project
+CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
 
 app = Flask(__name__)
 app.config.update(
@@ -14,20 +18,28 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(100), unique=True)
-    email = db.Column(db.String(200), unique=True)
-    name = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(100))
     percent = db.Column(db.Integer)
 
 
-    def __init__(self, user_id, email, name, percent):
+    def __init__(self, user_id, name, percent):
         self.user_id = user_id
-        self.email = email
         self.name = name
         self.percent = percent
 
 
     def __repr__(self):
         return '<User %r>' % self.user_id
+
+    @property
+    def serialize(self):
+    	""" Used for JSONify and render templates """
+    	return {
+	    	'id' : self.id,
+	    	'user_id' : self.user_id,
+	    	'name' : self.name,
+	    	'percent' : self.percent
+    	}
 
 
 class Item(db.Model):
@@ -48,6 +60,17 @@ class Item(db.Model):
     def __repr__(self):
         return '<Item %r>' % self.item_name
 
+    @property
+    def serialize(self):
+    	""" Used for JSONify and render templates """
+    	return {
+	    	'id' : self.id,
+	    	'user_id' : self.user_id,
+	    	'item_name' : self.item_name,
+	    	'item_description' : self.item_description,
+	    	'price' : self.price
+    	}
+
 
 @app.route('/')
 def index():
@@ -65,13 +88,51 @@ def insert(user_id, name, description, price):
 @app.route('/listings')
 def listings():
 	items = Item.query.all()
-	result = ""
-	for item in items:
-		result += "User ID: " + item.user_id + ", Item Name: " + item.item_name + \
-			", Description: " + item.item_description + ", Price: " + str(item.price) \
-			+ "\r\n"
-	return result
-	
+	return render_template('results.html', data=[item.serialize for item in items])
+
+
+@app.route('/fakesignin')
+def fakesignin():
+	# Get params from the request
+	parser = reqparse.RequestParser()
+	parser.add_argument('Email', type=str, required=True, help='E-mail must be provided.',
+		location='headers')
+	parser.add_argument('Name', type=str, required=True, help='Name must be provided.',
+		location='headers')
+	args = parser.parse_args()
+	return signin(args['Email'], args['Name'])
+
+
+def signin(email, name):
+	'''
+	Post Google signin, register (and redirect) as necessary or return to listings
+	'''
+	matching_users = User.query.filter_by(user_id=email).all()
+	matches = len(matching_users)
+	if matches == 0:
+		return register(email, name)
+	elif matches == 1:
+		return jsonify(data=[user.serialize for user in matching_users])
+	return "eww"
+
+
+def register(email, name):
+	'''
+	Register a new user.
+	'''
+	try: 
+		# Catch regex
+		regex_result = re.match(CU_EMAIL_REGEX, email)
+		if not regex_result:
+			raise NameError("Invalid e-mail")
+
+		user = User(email, name, 50.0)
+		db.session.add(user)
+		db.session.commit()
+		return "Welcome to Marketplace!"
+	except Exception:
+		return "We couldn't register you. Make sure you use a Columbia or Barnard email."
+
 
 if __name__ == '__main__':
 	db.create_all()

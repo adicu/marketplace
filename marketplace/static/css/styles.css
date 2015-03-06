@@ -1,1 +1,54 @@
-css
+html, body {
+    min-height: 100%;
+    background-color: #F0F0F0;
+}
+
+@font-face {
+  font-family: 'Mission-Script';
+  src: 
+    url('Mission-Script.otf') format('woff2')
+}
+
+.navbar {
+    background-color: #A1FFB8;
+    border-radius: 0px;
+}
+
+a {
+    color: #FFFFFF;
+}
+.sellButton {
+    width: 30px;
+    padding: 2px;
+    border: 1px solid white;
+    margin: 0;
+    color: #FFFFFF; 
+}
+.logoContainer {
+	background-color: #2285c6;
+    height: 130px;
+    display: block;
+    font-family: Arial, sans-serif;
+}
+
+.theLogo {
+    font-family: 'Mission-Script', sans-serif;
+	font-size: 47.5px;
+	color: #FFFFFF;
+}
+.theSide {
+	color: #FFFFFF;
+}
+.sideBar{
+    position:absolute;
+    left:0; 
+    top:130px; 
+    bottom: 0;
+    width: 150px;
+    background-color:#575757;
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 800px;
+  }
+}

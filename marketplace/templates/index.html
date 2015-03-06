@@ -1,6 +1,364 @@
-<head>
 
+<!doctype html>
+<head>  
+    <title>Marketplace</title>
+    <!--CSS files-->
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+
+    <!--js-->
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
+
+
+
+
+
 <body>
 
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-4 col-md-4 home-nav">
+      <form role="form" action="/home" method="GET">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q">
+          <span class="input-group-btn">
+            <input class="btn btn-default" id="submit" name="submit" type="submit" value="Search">
+          </span>
+        </div><!-- /input-group -->
+      </form>
+    </div>
+    <div class="col-xs-4 col-md-4 home-nav">
+      <a class="theLogo">Marketplace</a>
+      <a class="theSide" padding-left:5em> by ADI</a>
+    </div>
+  </div>
+
+  <div class="col-xs-4 col-md-4 home-nav">
+    <p class="text-right"><a href="register" class="btn">Sign up</a>
+    <a href="login" class="btn btn-primary">Login</a></p>  
+  </div>
+  
+</div>
+
+ 
+
+<div class="logoContainer">
+
+    <div class="container">
+        <div class="text-right"><a href="register" class="btn">Sign up</a>
+    <a href="login" class="btn btn-primary">Login</a></div>
+        <div class="text-center">
+            <div class="theLogo">Marketplace</div>
+        	<div class="theSide" padding-left:5em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by ADI</div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="sideBar"> <!-- USING GRID SYSTEM-->
+	<p class="theSide">
+		<br>
+		<strong>Items</strong>
+		<br>
+		<a href="#" onclick="sortBy('price')" class="btn "> Textbooks</a>
+		<br>
+		<a href="#" onclick="sortBy('price')" class="btn "> Else</a>
+		<br>
+		<br>
+		<strong>Filter by</strong>
+		<br>
+		<a href="#" onclick="sortBy('price')" class="btn "> Price low/high</a>
+		<a href="#" onclick="sortBy('price')" class="btn "> Price high/low</a>
+		<a href="#" onclick="sortBy('price')" class="btn "> New/Old</a>
+		<a href="#" onclick="sortBy('price')" class="btn "> Old/New</a>
+
+
+	</p>
+</div>
+<!--
+<div class="textContainer">
+    <div class="container">
+        <div>
+            <p class="about"><strong>DENSITY</strong> estimates how full study spaces are on campus, using a live feed of Wi-Fi access data that updates every 15 minutes.</p>
+            <p><strong>DENSITY</strong> by ADI is built and maintained by <a href="https://adicu.com/labs">ADI Labs</a> in collaboration with <a href="http://columbiaesc.com/">ESC</a> and <a href="https://cuit.columbia.edu/">CUIT</a>.</p>
+        </div>
+    </div>
+</div>
+<div class="listContainer">
+    <div class="container">
+        <ul class="list-group">
+            
+            <li class="list-group-item"><h4>Architectural and Fine Arts Library 1</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="14"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 14%;">
+                    14%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Architectural and Fine Arts Library 2</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="43"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 43%;">
+                    43%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Architectural and Fine Arts Library 3</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="57"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 57%;">
+                    57%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Butler Library 2</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="69"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 69%;">
+                    69%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Butler Library 3</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="78"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 78%;">
+                    78%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Butler Library 4</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="57"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 57%;">
+                    57%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Butler Library 5</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="54"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 54%;">
+                    54%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Butler Library 6</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="66"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 66%;">
+                    66%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Butler Library Stacks</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="21"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 21%;">
+                    21%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>JJ&#39;s Place</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="22"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 22%;">
+                    22%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>John Jay Dining Hall</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="11"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 11%;">
+                    11%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lehman Library 2</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="29"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 29%;">
+                    29%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lehman Library 3</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="46"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 46%;">
+                    46%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lerner 1</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="2"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 2%;">
+                    2%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lerner 2</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="49"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 49%;">
+                    49%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lerner 3</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="42"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 42%;">
+                    42%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lerner 4</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="45"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 45%;">
+                    45%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Lerner 5</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="38"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 38%;">
+                    38%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Roone Arledge Auditorium</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="5"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 5%;">
+                    5%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Science and Engineering Library</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="45"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 45%;">
+                    45%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Starr East Asian Library</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="52"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 52%;">
+                    52%
+                  </div>
+                </div>
+            </li>
+            
+            <li class="list-group-item"><h4>Uris/Watson Library</h4>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped active"
+                       role="progressbar" aria-valuenow="48"
+                       aria-valuemin="0" aria-valuemax="100"
+                       style="width: 48%;">
+                    48%
+                  </div>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+<div class="thanksContainer">
+    <div class="container">
+        <h4>Special thanks to <img class="logo escLogo" src="/static/esc.png">
+        </h4>
+    </div>
+</div>
+
+
+    <footer class="footer">
+        <div class="container">
+            <p class="left">Maintained by <a href="https://adicu.com/labs">ADI Labs</a></p>
+            <p class="right"><a href="mailto:labs@adicu.com?subject=[ADI Density]">Report a bug or suggest a feature</a></p>
+        </div>
+    </footer>
+   -->
+    <!--Javascript Files-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>

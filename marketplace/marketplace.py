@@ -1,6 +1,6 @@
-from flask import Flask, jsonify, render_template, json, request
+from flask import Flask, jsonify, render_template, json, request, url_for
 from db import db # Import database functions
-
+# this is test
 app = Flask(__name__)
 
 import sqlalchemy
@@ -13,7 +13,8 @@ app.config.update(
 
 @app.route('/')
 def index():
-	return "Marketplace"
+	return render_template('index.html')
 
 if __name__ == '__main__':
 	app.run(host=app.config['HOST'])
+# comments

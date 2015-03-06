@@ -1,3 +1,5 @@
+from flask import url_for
+from flask.ext.sqlalchemy import SQLalchemy
 from marketplace import db
 
 class User(db.Model):

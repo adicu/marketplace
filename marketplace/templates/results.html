@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Marketplace by ADICU
+{% endblock %}
+
+
+{% block body %}
+<div class="row">
+  <div class="medium-9 medium-centered columns">
+    <div class="panel" style="margin-left:26rem; margin-right:-26rem; margin-top:-7rem;">
+        {%for item in data%}
+	        <h1>{{item.item_name}}           {{item.price}}</h1>
+	        <h3>{{item.user_id}}</h3>
+	        <br>
+	        <p>{{item.item_description}}</p>
+	    {%endfor%}
+	</div>
+  </div>
+</div>
+{% endblock %}

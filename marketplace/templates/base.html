@@ -1,0 +1,53 @@
+<!DOCTYPE html> 
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]--> 
+<html class="no-js" lang="en" > 
+
+<head> 
+  {% block head %}{% endblock %}
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>{% block title %}{% endblock %}</title> 
+
+  <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. --> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}"> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css')}}"> 
+
+  <!-- If you are using the gem version, you need this only --> 
+  <link rel = "stylesheet" type = "text/css" href="{{ url_for('static', filename='css/base.css') }}" >
+  <script src="{{ url_for('static', filename='css/modernizr.js')}}"></script> 
+
+
+<div class="top" style="background-color: #2285c6;">
+  <p><font color="white">Marketplace</font></p>
+
+</div>
+
+<div class = "logo">
+  <img src = "{{ url_for('static', filename='img/cu.jpg') }}">
+</div>
+
+<a class="small button round dropdown" href="#" data-dropdown="drop1" style="background-color:#e0e0e0; margin-left:400px; margin-top:7px;"> <font color="#2285c6">     My Stuff     </font></a>
+</pre>
+<ul class="f-dropdown" id="drop1">
+    <li><a href="/profile">My Profile</a></li>
+    <li><a href="/sales">My Sales</a></li>
+    <li><a href="/purchases">My Purchases</a></li>
+</ul>
+
+<div class = "putton">
+  <a href="/public" class="round button small" style="background-color:#e0e0e0; margin-left:200px"> <font color="#2285c6">  Public Forum  </font></a>
+</div>
+
+</head> 
+<body> 
+
+  <!-- body content here --> 
+  {% block body %}{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/vendor/jquery.js')}}"></script> 
+  <script src="{{ url_for('static', filename='js/foundation.min.js')}}"></script> 
+  <script> 
+    $(document).foundation(); 
+  </script> 
+</body> 
+</html>

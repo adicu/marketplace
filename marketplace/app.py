@@ -1,48 +1,30 @@
 from flask import Flask, jsonify, render_template, json, request
+<<<<<<< HEAD:marketplace/app.py
 from db import db_session
 from flask.ext.sqlalchemy import SQLAlchemy
 from app import models
-<<<<<<< HEAD
-from flask_oauth import OAuth
+
 =======
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import reqparse # Parse through requests
 import re # For regular expressions
 >>>>>>> adicu/master:marketplace/marketplace.py
-GOOGLE_CLIENT_ID = 1077285924024-51aofukoknvs52a6tlsa8oetfdsecsgp.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET = dgQpe2OD1_rJDw66cKMv_OXc
-REDIRECT_URI = https://www.example.com/oauth2callback
-
-SECRET_KEY = 'development key'
 
 # From Density project
 CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
-=======
-
->>>>>>> parent of f7ece01... Merge remote-tracking branch 'adicu/master'
 
 app = Flask(__name__)
-
-# Import configuration from Flask
 app.config.update(
 	DEBUG=True,
-	HOST='0.0.0.0'
+	HOST='0.0.0.0',
+	SQLALCHEMY_DATABASE_URI = 'sqlite:////home/vagrant/marketplace_db.db'
 )
+<<<<<<< HEAD:marketplace/app.py
 db = SQLAlchemy(marketplace)
-<<<<<<< HEAD
 =======
 db = SQLAlchemy(app)
-app.debug = DEBUG
-app.secret_key = SECRET_KEY
-oauth = OAuth()
 
-google = oauth.remote_app('google',
-						   base_url = 
-						   authorize_url =
-						   request_token_url = None
-						   request_token_params)
 
-#https://github.com/mitsuhiko/flask-oauth/blob/master/example/google.py
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(100), unique=True)
@@ -77,18 +59,90 @@ class Item(db.Model):
     item_description = db.Column(db.String(2000))
     price = db.Column(db.Float)
 
-=======
->>>>>>> parent of f7ece01... Merge remote-tracking branch 'adicu/master'
 
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-	''' Cleanup the database when we close'''
-	db_session.remove()
+    def __init__(self, user_id, item_name, item_description, price):
+        self.user_id = user_id
+        self.item_name = item_name
+        self.item_description = item_description
+        self.price = price
+
+>>>>>>> adicu/master:marketplace/marketplace.py
+
+    def __repr__(self):
+        return '<Item %r>' % self.item_name
+
+    @property
+    def serialize(self):
+    	""" Used for JSONify and render templates """
+    	return {
+	    	'id' : self.id,
+	    	'user_id' : self.user_id,
+	    	'item_name' : self.item_name,
+	    	'item_description' : self.item_description,
+	    	'price' : self.price
+    	}
 
 
 @app.route('/')
 def index():
-	return "Marketplace"
+	return "In progress"
+
+
+@app.route('/insert/<user_id>/<name>/<description>/<float:price>')
+def insert(user_id, name, description, price):
+	new_item = Item(user_id, name, description, price)
+	db.session.add(new_item)
+	db.session.commit()
+	return "Item added"
+
+
+@app.route('/listings')
+def listings():
+	items = Item.query.all()
+	return render_template('results.html', data=[item.serialize for item in items])
+
+
+@app.route('/fakesignin')
+def fakesignin():
+	# Get params from the request
+	parser = reqparse.RequestParser()
+	parser.add_argument('Email', type=str, required=True, help='E-mail must be provided.',
+		location='headers')
+	parser.add_argument('Name', type=str, required=True, help='Name must be provided.',
+		location='headers')
+	args = parser.parse_args()
+	return signin(args['Email'], args['Name'])
+
+
+def signin(email, name):
+	'''
+	Post Google signin, register (and redirect) as necessary or return to listings
+	'''
+	matching_users = User.query.filter_by(user_id=email).all()
+	matches = len(matching_users)
+	if matches == 0:
+		return register(email, name)
+	elif matches == 1:
+		return jsonify(data=[user.serialize for user in matching_users])
+	return "eww"
+
+
+def register(email, name):
+	'''
+	Register a new user.
+	'''
+	try: 
+		# Catch regex
+		regex_result = re.match(CU_EMAIL_REGEX, email)
+		if not regex_result:
+			raise NameError("Invalid e-mail")
+
+		user = User(email, name, 50.0)
+		db.session.add(user)
+		db.session.commit()
+		return "Welcome to Marketplace!"
+	except Exception:
+		return "We couldn't register you. Make sure you use a Columbia or Barnard email."
 
 <<<<<<< HEAD
 @app.route('/auth')
@@ -98,4 +152,5 @@ def auth():
 
 >>>>>>> adicu/master
 if __name__ == '__main__':
+	db.create_all()
 	app.run(host=app.config['HOST'])

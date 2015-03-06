@@ -31,12 +31,7 @@ apt-get install -y libsqlite3-dev
 pip install -r /vagrant/config/requirements.txt
 pip install flake8 # For local testing
 pip install SQLAlchemy # Install SQLAlchemy
-<<<<<<< HEAD
 pip install flask-restful # Request parsing
-pip install flask-wtf #Forms validation and rendering
-pip install Flask-OAuth #authentication for Google accounts
-=======
->>>>>>> parent of f7ece01... Merge remote-tracking branch 'adicu/master'
 
 # Install Vim
-install vim
+apt-get install vim

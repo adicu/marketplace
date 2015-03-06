@@ -1,19 +1,7 @@
 from flask import Flask, jsonify, render_template, json, request
-<<<<<<< HEAD:marketplace/app.py
-from db import db_session
-from flask.ext.sqlalchemy import SQLAlchemy
-from app import models
-from flask_oauth import OAuth
-=======
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import reqparse # Parse through requests
 import re # For regular expressions
->>>>>>> adicu/master:marketplace/marketplace.py
-GOOGLE_CLIENT_ID = 1077285924024-51aofukoknvs52a6tlsa8oetfdsecsgp.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET = dgQpe2OD1_rJDw66cKMv_OXc
-REDIRECT_URI = https://www.example.com/oauth2callback
-
-SECRET_KEY = 'development key'
 
 # From Density project
 CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
@@ -24,21 +12,9 @@ app.config.update(
 	HOST='0.0.0.0',
 	SQLALCHEMY_DATABASE_URI = 'sqlite:////home/vagrant/marketplace_db.db'
 )
-<<<<<<< HEAD:marketplace/app.py
-db = SQLAlchemy(marketplace)
-=======
 db = SQLAlchemy(app)
-app.debug = DEBUG
-app.secret_key = SECRET_KEY
-oauth = OAuth()
 
-google = oauth.remote_app('google',
-						   base_url = 
-						   authorize_url =
-						   request_token_url = None
-						   request_token_params)
 
-#https://github.com/mitsuhiko/flask-oauth/blob/master/example/google.py
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(100), unique=True)
@@ -80,7 +56,6 @@ class Item(db.Model):
         self.item_description = item_description
         self.price = price
 
->>>>>>> adicu/master:marketplace/marketplace.py
 
     def __repr__(self):
         return '<Item %r>' % self.item_name
@@ -158,13 +133,7 @@ def register(email, name):
 	except Exception:
 		return "We couldn't register you. Make sure you use a Columbia or Barnard email."
 
-<<<<<<< HEAD
-@app.route('/auth')
-def auth():
-	
-=======
 
->>>>>>> adicu/master
 if __name__ == '__main__':
 	db.create_all()
 	app.run(host=app.config['HOST'])

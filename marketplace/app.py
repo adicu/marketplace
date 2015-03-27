@@ -15,9 +15,6 @@ import re # For regular expressions
 CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
 
 #Initialize OAuth2.0 values
-GOOGLE_CLIENT_ID = '51aofukoknvs52a6tlsa8oetfdsecsgp.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'dgQpe2OD1_rJDw66cKMv_OXc'
-REDIRECT_URI = 'https://www.example.com/oauth2callback'
 SECRET_KEY = 'development key'
 
 app = Flask(__name__)
@@ -149,19 +146,26 @@ def register(email, name):
 <<<<<<< HEAD
 @app.route('/auth')
 def auth():
-	#get code from params
+	#get authentication code from params
 	code = request.args.get('code')
 	if not code:
 		return render_template('auth.html',
 								success = False)
 	try:
 		#Google+ ID
+
+		#Configure the client object
 		oauth_flow = flow_from_clientsecrets(
 			'client_secrets.json', 
-			scope='https://www.googleapis.com/auth/drive.metadata.readonly',
+			scope='',
 			redirect_uri = REDIRECT_URI)
-		oauth_flow.redirect_uri = 'postmessage'
+
+		#Redirect to Google's OAuth 2.0 server
+		auth_uri = flow.step1_get_authorize_url()
+
+		#Exchange an authorization code for an access token
 		credentials = oauth_flow.step2_exchange(code)
+		#Apply access token to an Http object
 		gplus_id = credentials.id_token['sub']
 
 		#Get first email address from Google+ ID
@@ -173,7 +177,7 @@ def auth():
 		data = json.loads(content)
 		email = data["emails"][0]["value"]
 		name = data['displayName']
-		register(email, name)
+		return signin(email, name)
 
 	except Exception as e:
 		print e

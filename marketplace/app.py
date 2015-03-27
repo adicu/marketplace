@@ -4,6 +4,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from oauth2client.client import flow_from_clientsecrets
 import httplib2
 from flask.ext.sqlalchemy import SQLAlchemy
+from datetime import date, datetime
 from flask.ext.restful import reqparse  # Parse through requests
 import re
 
@@ -27,12 +28,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(100), unique=True)
     name = db.Column(db.String(100))
-    percent = db.Column(db.Integer)
+    rating_value = db.Column(db.Integer)
+    num_ratings = db.Column(db.Integer)
 
-    def __init__(self, user_id, name, percent):
+    def __init__(self, user_id, name, rating_value, num_ratings):
         self.user_id = user_id
         self.name = name
-        self.percent = percent
+        self.rating_value = rating_value
+        self.num_ratings = num_ratings
 
     def __repr__(self):
         return '<User %r>' % self.user_id
@@ -44,7 +47,8 @@ class User(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'name': self.name,
-            'percent': self.percent
+            'rating_value': self.rating_value,
+            'num_ratings' : self.num_ratings
         }
 
 # Association table for associating items with tags and vice-versa
@@ -77,15 +81,21 @@ class Item(db.Model):
     item_name = db.Column(db.String(200))
     item_description = db.Column(db.String(2000))
     price = db.Column(db.Float)
+    date_listed = db.Column(db.Date)
+    date_sold = db.Column(db.Date)
+    status = db.Column(db.String(20))
 
     # Reference to the tags table
     tags = db.relationship('Tag', secondary=item_tags, backref=db.backref('items', lazy='dynamic'))
 
-    def __init__(self, user_id, item_name, item_description, price):
+    def __init__(self, user_id, item_name, item_description, price, date_listed, date_sold, status):
         self.user_id = user_id
         self.item_name = item_name
         self.item_description = item_description
         self.price = price
+        self.date_listed = date_listed
+        self.date_sold = date_sold
+        self.status = status
 
     def __repr__(self):
         return '<Item %r>' % self.item_name
@@ -102,9 +112,12 @@ class Item(db.Model):
             'item_name': self.item_name,
             'item_description': self.item_description,
             'price': self.price,
-            'tags': tag_output
+            'tags': tag_output,
+            'date_listed' : str(self.date_listed),
+            'date_sold' : str(self.date_sold),
+            'status' : self.status
         }
-
+		
 		
 @app.route('/')
 def index():
@@ -156,6 +169,40 @@ def tag_item(item_id, tag):
     return "Added tag!"
 
 
+@app.route('/update_tags/<item_id>/<tags>')
+def update_tags(item_id, tags):
+    # Get matching item
+    matching_items = db.session.query(Item).filter_by(id=item_id).all()
+    if len(matching_items) == 0:
+        return "No matching items found!"
+    if len(matching_items) > 1:
+        return "Too many items found!"
+
+    # Remove all current tags from the item //TODO: Is this safe?
+    del matching_items[0].tags[:]
+
+    # Get existing item tags and ensure not already there
+    for tag in tags:
+        # See if the tag is already in the tag database
+        tag_t = ""
+        matching_tags = db.session.query(Tag).filter_by(name=tag).all()
+        if len(matching_tags) == 0:
+            # No? Create tag
+            tag_t = Tag(tag)
+            db.session.add(tag_t)
+            db.session.commit()
+        else:
+            # Add item to new/existing tag
+            tag_t = matching_tags[0]
+
+        # Pair up item with tag
+        matching_items[0].tags.append(tag_t)
+    db.session.commit()
+
+    # For each tag, do some operation
+    return "Updated tags!"
+	
+	
 @app.route('/listings')
 def listings():
     items = Item.query.all()
@@ -175,6 +222,41 @@ def fakesignin():
     return signin(args['Email'], args['Name'])
 
 
+@app.route('/fakeregister/<uni>/<name>')
+def fakeregister(uni, name):
+    user = User(uni, name, 0, 0)
+    db.session.add(user)
+    db.session.commit()
+    return "registrado."
+	
+	
+@app.route('/fakeregister/<uni>/<name>')
+def fakeregister(uni, name):
+    user = User(uni, name, 0, 0)
+    db.session.add(user)
+    db.session.commit()
+    return "registrado."
+
+
+@app.route('/rate_user/<user_id>/<rating>')
+def rate_user(user_id, rating):
+    # Get matching users
+    rating = int(rating)
+    matching_users = User.query.filter_by(user_id=user_id).all()
+    if len(matching_users) == 0:
+        return "No matching users found!"
+    matching_users[0].num_ratings += 1
+    if rating > 0:
+        matching_users[0].rating_value += 1
+    elif rating < 0:
+        matching_users[0].rating_value -= 1
+    db.session.commit()
+
+    # Percent formula is here (average is 0.5)
+    return "New rating achieved; percent is: " \
+           + str(float(matching_users[0].rating_value) / float(2 * matching_users[0].num_ratings) + 0.5)
+		   
+		   
 def signin(email, name):
     """
     Post Google sign in, register (and redirect) as necessary or return to listings

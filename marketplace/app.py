@@ -156,7 +156,10 @@ def auth():
 								success = False)
 	try:
 		#Google+ ID
-		oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+		oauth_flow = flow_from_clientsecrets(
+			'client_secrets.json', 
+			scope='https://www.googleapis.com/auth/drive.metadata.readonly',
+			redirect_uri = REDIRECT_URI)
 		oauth_flow.redirect_uri = 'postmessage'
 		credentials = oauth_flow.step2_exchange(code)
 		gplus_id = credentials.id_token['sub']

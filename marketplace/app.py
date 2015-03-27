@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, render_template, json, request
+from flask import Flask, g, jsonify, render_template, json, request
 <<<<<<< HEAD:marketplace/app.py
 from db import db_session
 from flask.ext.sqlalchemy import SQLAlchemy
 from app import models
-
+from oauth2client.client import flow_from_clientsecrets
+import httplib2
 =======
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restful import reqparse # Parse through requests
@@ -12,6 +13,9 @@ import re # For regular expressions
 
 # From Density project
 CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
+
+#Initialize OAuth2.0 values
+SECRET_KEY = 'development key'
 
 app = Flask(__name__)
 app.config.update(
@@ -23,7 +27,6 @@ app.config.update(
 db = SQLAlchemy(marketplace)
 =======
 db = SQLAlchemy(app)
-
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -82,10 +85,6 @@ class Item(db.Model):
 	    	'price' : self.price
     	}
 
-
-@app.route('/')
-def index():
-	return "In progress"
 
 
 @app.route('/insert/<user_id>/<name>/<description>/<float:price>')
@@ -147,7 +146,42 @@ def register(email, name):
 <<<<<<< HEAD
 @app.route('/auth')
 def auth():
-	
+	#get authentication code from params
+	code = request.args.get('code')
+	if not code:
+		return render_template('auth.html',
+								success = False)
+	try:
+		#Google+ ID
+
+		#Configure the client object
+		oauth_flow = flow_from_clientsecrets(
+			'client_secrets.json', 
+			scope='',
+			redirect_uri = REDIRECT_URI)
+
+		#Redirect to Google's OAuth 2.0 server
+		auth_uri = flow.step1_get_authorize_url()
+
+		#Exchange an authorization code for an access token
+		credentials = oauth_flow.step2_exchange(code)
+		#Apply access token to an Http object
+		gplus_id = credentials.id_token['sub']
+
+		#Get first email address from Google+ ID
+		http = httplib2.Http()
+		http = credentials.authorize(http)
+
+		h, content = http.request('https://www.googleapis.com/plus/v1/people/' 
+								   + gplus_id, 'GET')
+		data = json.loads(content)
+		email = data["emails"][0]["value"]
+		name = data['displayName']
+		return signin(email, name)
+
+	except Exception as e:
+		print e
+		return "Error has occured"
 =======
 
 >>>>>>> adicu/master

@@ -13,3 +13,4 @@ The marketplace design specification is at [SPEC.md](SPEC.md).
 - Jessica Valarezo
 - Arunavha Chanda
 - Ganesh Ravichandran
+- Jake Kwon

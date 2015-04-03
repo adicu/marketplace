@@ -7,5 +7,5 @@ item_tags = db.Table('item_tags',
 )
 
 from marketplace.models.user import User
-from marketplace.models.tag import Tag # Must come before item, because reasons
+from marketplace.models.tag import Tag  # Must come before Item, because Item refers to Tag for the relationship
 from marketplace.models.item import Item

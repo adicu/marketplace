@@ -12,3 +12,12 @@ def insert_item(user_id, name, description, price):
     db.session.add(new_item)
     db.session.commit()
     return "Item added with id: " + str(new_item.id)
+
+
+@insert.route('/bulk_test')
+def bulk_test():
+    for i in range(100):
+        new_item = Item("mockuser", "test", "sample", i, date.today(), date.today(), 'listed')
+        db.session.add(new_item)
+    db.session.commit()
+    return "Bulk test complete."

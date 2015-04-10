@@ -1,0 +1,73 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+@font-face {
+    font-family: "Amble Regular";
+    src: url(fonts/Amble-Regular-webfont.ttf);
+}
+
+@font-face {
+    font-family: "BebasNeue";
+    src: url(fonts/BebasNeue-webfont.ttf);
+}
+
+@font-face {
+    font-family: "Mission-Script";
+    src: url(fonts/Mission-Script.otf);
+}
+
+html {
+	font-family: "Amble Regular";
+}
+
+#header {
+	width: 100%;
+	padding-bottom: 100px;
+	background-color: #2285C6;
+}
+
+#search_wrapper {
+	width: 200px;
+	margin: 10px auto 0;
+}
+
+#query_results {
+	width: 1100px;
+	height: 500px;
+	margin: 10px auto;
+	background-color: #FFC51F;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+#book_container {
+	padding: 10px;
+	height: 140px;
+	background-color: #FF581F;
+}
+
+#book_image_wrapper {
+	float: left;
+	width: 150px;
+}
+
+#book_image {
+	height: 140px;
+}
+
+#book_center_text {
+	padding-left: 40px;
+}
+
+#book_title {
+	font-weight: 900;
+	font-size: 20px;
+	font-style: italic;
+}
+
+#book_button_wrapper {
+	float: right;
+	margin: auto;
+}

@@ -2,8 +2,15 @@
 <html>
 <head>
 <title>Marketplace</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="google-signin-clientid" content="CLIENT_ID" />
+<meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
+<meta name="google-signin-requestvisibleactions" content="http://schema.org/AddAction" />
+<meta name="google-signin-cookiepolicy" content="single_host_origin" />
+<meta name="google-signin-callback" content="signinCallback" />
+
 <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
 <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script type="text/javascript" src="../static/js/jquery.min.js"></script>
@@ -49,6 +56,18 @@
 						$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
 					});
 				});
+			</script>
+		<script src="https://apis.google.com/js/client:platform.js?onload=render" async defer>
+			/* Executed when the APIs finish loading */
+			function render() {
+
+			  // Additional params
+			  var additionalParams = {
+			    'theme' : 'dark'
+			  };
+
+			  gapi.signin.render('myButton', additionalParams);
+			}
 			</script>
 </head>
 <body>
@@ -123,9 +142,28 @@
 					
 				  <div class="contact-form">
 			 	  	 	<h2>Login</h2>
-			 	 	    <form method="post" action="contact-post.html">
+			 	 	    <form method="post" onclick = "login()">
 					    	
 						   		<span><input type="submit" class="" value="Sign up with Google"></span>
+						   		<script>
+					      function login() {
+					          var params = {
+					              'callback': signinCallback,
+					              'clientid': '18084506948-mgmomgbk9ciau6teih4jclb0anp1ah2h.apps.googleusercontent.com',
+					              'scope': 'https://www.googleapis.com/auth/plus.profile.emails.read',
+					              'requestvisibleactions': 'http://schema.org/AddAction',
+					              'cookiepolicy': 'single_host_origin'
+					          };
+					          gapi.auth.signIn(params);
+					      }
+					      function signinCallback(authResult) {
+					          if (authResult['status']['signed_in']) {
+					          // Update the app to reflect a signed in user
+					          // Hide the sign-in button now that the user is authorized, for example:
+					          document.location.href = '/auth?code=' + authResult.code
+					        }
+					      }
+					    </script>
 					    </form>
 				    </div>
   				<div class="clear"></div>		
@@ -133,6 +171,53 @@
 		</div>
 </div>
 </div>		
+
+
+<!---
+<div class="main_bg">
+<div class="wrap">	
+<div class="main">
+	 	 <div class="contact">				
+					
+				  <div class="contact-form">
+			 	  	 	<h2>Login</h2>
+
+			 	  	 	<button id='signinButton' type = "submit" onclick='login()' style="margin-bottom: 1em;">
+					        Get access
+					    </button>
+					    <script>
+					      function login() {
+					          var params = {
+					              'callback': signinCallback,
+					              'clientid': '859795907220-57lf7t8m19a1i3huaogqg546u5efjk8j.apps.googleusercontent.com',
+					              'scope': 'https://www.googleapis.com/auth/plus.profile.emails.read',
+					              'requestvisibleactions': 'http://schema.org/AddAction',
+					              'cookiepolicy': 'single_host_origin'
+					          };
+					          gapi.auth.signIn(params);
+					      }
+					      function signinCallback(authResult) {
+					          if (authResult['status']['signed_in']) {
+					          // Update the app to reflect a signed in user
+					          // Hide the sign-in button now that the user is authorized, for example:
+					          document.location.href = '/auth?code=' + authResult.code
+					        }
+					      }
+					    </script>
+				    </div>
+  				<div class="clear"></div>		
+			  </div>
+		</div>
+</div>
+</div>
+
+//--->
+
+
+
+
+
+
 
 <!-- start footer -->
 <div class="footer_bg1">

@@ -8,18 +8,20 @@ class Item(db.Model):
     user_id = db.Column(db.String(100))
     item_name = db.Column(db.String(200))
     item_description = db.Column(db.String(2000))
+    image_url = db.Column(db.String)
     price = db.Column(db.Float)
-    date_listed = db.Column(db.Date)
-    date_sold = db.Column(db.Date)
+    date_listed = db.Column(db.DateTime)
+    date_sold = db.Column(db.DateTime)
     status = db.Column(db.String(20))
 
     # Reference to the tags table
     tags = db.relationship('Tag', secondary=item_tags, backref=db.backref('items', lazy='dynamic'))
 
-    def __init__(self, user_id, item_name, item_description, price, date_listed, date_sold, status):
+    def __init__(self, user_id, item_name, item_description, item_url, price, date_listed, date_sold, status):
         self.user_id = user_id
         self.item_name = item_name
         self.item_description = item_description
+        self.image_url = item_url
         self.price = price
         self.date_listed = date_listed
         self.date_sold = date_sold
@@ -39,6 +41,7 @@ class Item(db.Model):
             'user_id': self.user_id,
             'item_name': self.item_name,
             'item_description': self.item_description,
+            'item_url': self.image_url,
             'price': self.price,
             'tags': tag_output,
             'date_listed': str(self.date_listed),

@@ -1,7 +1,8 @@
 # Core application logic
-from flask import Flask, jsonify
+from flask import Flask, jsonify, url_for, session, redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 from oauth2client.client import OAuth2WebServerFlow
+from functools import wraps
 import json
 
 app = Flask(__name__)
@@ -25,6 +26,14 @@ flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_LOGIN_CLIENT_ID'],
                            scope='https://www.googleapis.com/auth/userinfo.email',
                            redirect_uri='http://localhost:5000/login/google')
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "logged_in" not in session or session["logged_in"] == False:
+            return "Authentication required!"
+        return f(*args, **kwargs)
+    return decorated_function
+
 # Register our routes
 from marketplace.routes.home import home
 app.register_blueprint(home)
@@ -47,5 +56,5 @@ app.register_blueprint(tag_item)
 from marketplace.routes.update_tags import update_tags
 app.register_blueprint(update_tags)
 
-# Ensure the database existss
+# Ensure the database exists
 db.create_all()

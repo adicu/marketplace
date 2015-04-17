@@ -12,12 +12,13 @@ class Item(db.Model):
     price = db.Column(db.Float)
     date_listed = db.Column(db.DateTime)
     date_sold = db.Column(db.DateTime)
+    sold_to = db.Column(db.String(100))
     status = db.Column(db.String(20))
 
     # Reference to the tags table
     tags = db.relationship('Tag', secondary=item_tags, backref=db.backref('items', lazy='dynamic'))
 
-    def __init__(self, user_id, item_name, item_description, item_url, price, date_listed, date_sold, status):
+    def __init__(self, user_id, item_name, item_description, item_url, price, date_listed, date_sold, sold_to, status):
         self.user_id = user_id
         self.item_name = item_name
         self.item_description = item_description
@@ -25,7 +26,34 @@ class Item(db.Model):
         self.price = price
         self.date_listed = date_listed
         self.date_sold = date_sold
+        self.sold_to = sold_to
         self.status = status
+
+        # User ID:
+        # -- The user who is selling the item. (e.g. uni123@columbia.edu)
+        # Item name: 
+        # -- The name of the item. (e.g. "Old Sofa")
+        # Item description:
+        # -- A description of the item. (e.g. "A sofa. It's old.")
+        # Image URL:
+        # -- An image for the item. Ideally hosted on our server, and uploaded from forms.
+        # -- (e.g. "http://marketplace.adicu.com/imgs/old_sofa.jpg")
+        # Price:
+        # -- How much the item costs. It's a float. (e.g. 50.00)
+        # Date Listed:
+        # -- When the item was listed for sale on the website. (e.g. [some date])
+        # Date Sold:
+        # -- When the item was sold on the website. (e.g. [some date])
+        # Sold To:
+        # -- The user who the item was sold to. This will often be None, because the item
+        #    hasn't been sold yet. (e.g. mgb123@columbia.edu)
+        # Description of status values:
+        # -- listed: The item is listed, and visible on the website.
+        # -- sold: The item has been sold, but the seller hasn't been rated.
+        # -- rated: The item has been sold, and the seller has been rated.
+        # -- deleted: The item has been deleted, and is pending deletion
+        # -- [anything else]: Invalid field name. Bad. 
+        # -- (e.g. "listed")
 
     def __repr__(self):
         return '<Item %r>' % self.item_name

@@ -1,0 +1,54 @@
+<html>
+<head>
+	<title>
+		CU - Marketplace
+	</title>
+
+	<link rel="stylesheet" type="text/css" href="static/css/primary_UI_styling.css">
+
+</head>
+
+<body>
+
+	<div id="header">
+		Rando header text
+	</div>
+
+	<div id="center-section">
+		<div id="search_wrapper">
+			<form>
+				<input type="text" placeholder="Search">
+				<input type="submit">
+			</form>
+		</div>
+
+		<div id="query_results">
+			<div id="book_container">
+				<div id="book_image_wrapper">
+					<img id="book_image" src="static/images/samplebook.jpg">
+				</div>
+				<div id="book_center_text">
+					{% for book in book_center_text %}
+						<div id="book_title">
+							This is the title of the book
+						</div>
+						<div id="book_author">
+							J.K. Rowling
+						</div>
+						<div id="book_ISBN">
+							ISBN: 1234567890
+						</div>
+					{% endfor %}
+				</div>
+				<div id="book_button_wrapper">
+					<input type = "button" value="Check Prices">
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+</html>

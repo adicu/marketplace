@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from marketplace.models.item import Item, Tag
 from marketplace import db
+from sqlalchemy import desc
 
 listings = Blueprint('listings', __name__)
 
@@ -16,9 +17,9 @@ def show_listings(offset):
     @param offset: Offset of the entries.
     @return: Up to LIMIT listings in JSON.
     """
-    items = Item.query.filter(Item.status == "listed").order_by(Item.date_listed).offset(offset).limit(LIMIT).all()
+    items = Item.query.filter(Item.status == "listed").order_by(desc(Item.date_listed)).offset(offset).limit(LIMIT).all()
     return jsonify(data=[item.serialize for item in items])
-    # return render_template('primary_user_interface.html', data=[item.serialize for item in items])
+    #return render_template('primary_user_interface.html', items=items)
 
 
 @listings.route('/search_listings/<query>/<offset>')

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, Flask, g, jsonify, render_template, json, request
 
 home = Blueprint('name', __name__)
 
@@ -10,5 +10,8 @@ def home_page():
 
 @home.route('/login')
 def login_page():
-    """ Our home page. """
     return render_template('login.html')
+
+@home.route('/list')
+def list_page():
+    return render_template('itemList.html')

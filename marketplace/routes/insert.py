@@ -1,20 +1,24 @@
 from flask import Blueprint
-from marketplace import db, session
+from marketplace import db, session, login_required
 from marketplace.models import Item
 from datetime import date, datetime
 
 insert = Blueprint('insert', __name__) # Leave of URL prefix intentionally
 
 
-@insert.route('/insert/<user_id>/<name>/<description>/<image_url>/<float:price>')
-def insert_item(user_id, name, description, image_url, price):
-    new_item = Item(user_id, name, description, image_url, price, date.today(), date.today(), None, 'listed')
+@insert.route('/insert/<name>/<description>/<image_url>/<float:price>')
+@login_required
+def insert_item(name, description, image_url, price):
+    new_item = Item(session["username"], name, 
+        description, image_url, price, date.today(), date.today(), 
+        None, 'listed')
     db.session.add(new_item)
     db.session.commit()
     return "Item added with id: " + str(new_item.id)
 
 
 @insert.route('/mark_sold/<item_id>/<sold_to>')
+@login_required
 def mark_sold(item_id, sold_to):
     item = Item.query.filter_by(id=item_id).all()
     if len(item) == 0:
@@ -32,6 +36,7 @@ def mark_sold(item_id, sold_to):
 
 
 @insert.route('/bulk_test')
+@login_required
 def bulk_test():
     for i in range(100):
         new_item = Item("uni123", "Product name", "Product description",

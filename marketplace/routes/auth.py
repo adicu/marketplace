@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, render_template, json, request, redirect, session, url_for
-from marketplace import db, flow
+from marketplace import db, flow, login_required
 from marketplace.models import User
 from marketplace.routes import home
 from oauth2client.client import OAuth2WebServerFlow
@@ -15,10 +15,11 @@ CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
 
 
 @auth.route("/logout")
+@login_required
 def logout():
     session.pop("username", None)
     session["logged_in"] = False
-    return "logged out" #home.home_page()
+    return "Logged out."
 
 
 @auth.route("/session_test")
@@ -44,8 +45,7 @@ def google_login():
         email = data["emails"][0]["value"]
         return signin(email)
     elif error:  # Google login returned an error; alert the user
-        return render_template("index.html", logged_in=False, 
-                                error_message="An error occcurred authenticating you.")
+        return render_template("index.html", error_message="An error occcurred authenticating you.")
     else:  # We just got to the code in the first place
         return redirect(flow.step1_get_authorize_url())
 

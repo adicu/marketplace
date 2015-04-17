@@ -1,11 +1,12 @@
 from flask import Blueprint
-from marketplace import db
+from marketplace import db, login_required
 from marketplace.models import Item, Tag
 
 update_tags = Blueprint('update_tags', __name__)
 
 
 @update_tags.route('/update_tags/<item_id>/<tags>')
+@login_required
 def update_item_tags(item_id, tags):
     # Get matching item
     matching_items = db.session.query(Item).filter_by(id=item_id).all()

@@ -1,163 +1,21 @@
+{% extends "layout.html" %}
 
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Marketplace</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
-<link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" />
-<script type="text/javascript" src="../static/js/jquery.min.js"></script>
-<!-- start slider -->		
-	<link href="../static/css/slider.css" rel="stylesheet" type="text/css" media="all" />
-	<script type="text/javascript" src="../static/js/modernizr.custom.28468.js"></script>
-	<script type="text/javascript" src="../static/js/jquery.cslider.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$('#da-slider').cslider();
-		});
-	</script>
-		<!-- Owl Carousel Assets -->
-		<link href="../static/css/owl.carousel.css" rel="stylesheet">
-		     <!-- Owl Carousel Assets -->
-		    <!-- Prettify -->
-		    <script src="../static/js/owl.carousel.js"></script>
-		        <script>
-		    $(document).ready(function() {
-		
-		      $("#owl-demo").owlCarousel({
-		        items : 4,
-		        lazyLoad : true,
-		        autoPlay : true,
-		        navigation : true,
-			    navigationText : ["",""],
-			    rewindNav : false,
-			    scrollPerPage : false,
-			    pagination : false,
-    			paginationNumbers: false,
-		      });
-		
-		    });
-		    </script>
-		   <!-- //Owl Carousel Assets -->
-		<!-- start top_js_button -->
-		<script type="text/javascript" src="../static/js/move-top.js"></script>
-		<script type="text/javascript" src="../static/js/easing.js"></script>
-		   <script type="text/javascript">
-				jQuery(document).ready(function($) {
-					$(".scroll").click(function(event){		
-						event.preventDefault();
-						$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-					});
-				});
-			</script>
-</head>
-<body>
-<!-- start header -->
-<div class="header_bg">
-<div class="wrap">
-	<div class="header">
-		<div class="logo">
-			<a href="index.html">Marketplace </a>
-		</div>
-		<div class="h_icon">	
-			<a class="btn" href="{{ url_for('.login_page') }}"> Login </a>
-			<!-- <a class="btn" href="/"> Login </a> -->
+{% block head %}
+	{{ super() }}
 
-		</div>
-		<div class="h_search">
-    		<form>
-    			<input type="text" value="">
-    			<input type="submit" value="">
-    		</form>
-		</div>
-		<div class="clear"></div>
-	</div>
-</div>
-</div>
-<div class="header_btm">
-<div class="wrap">
-	<div class="header_sub">
-		<div class="h_menu">
-			<ul>
-				<!-- use this for indentation -->
-				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-				<li class="active"><a href="index.html">Home</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<li><a href="sale.html">all</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<li><a href="handbags.html">textbook</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<li><a href="accessories.html">price</a></li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<li><a href="wallets.html">newest</a></li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				
-				<li><a href="contact.html">Contact us</a></li>
-			</ul>
-		</div>
-		<div class="top-nav">
-	          <nav class="nav">	        	
-	    	    <a href="#" id="w3-menu-trigger"> </a>
-	                  <ul class="nav-list" style="">
-	            	        <li class="nav-item"><a class="active" href="index.html">Home</a></li>
-							<li class="nav-item"><a href="sale.html">Sale</a></li>
-							<li class="nav-item"><a href="handbags.html">Handbags</a></li>
-							<li class="nav-item"><a href="accessories.html">Accessories</a></li>
-							<li class="nav-item"><a href="shoes.html">Shoes</a></li>
-							<li class="nav-item"><a href="service.html">Services</a></li>
-							<li class="nav-item"><a href="contact.html">Contact</a></li>
-	                 </ul>
-	           </nav>
-	             <div class="search_box">
-				<form>
-				   <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
-			    </form>
-			</div>
-	          <div class="clear"> </div>
-	          <script src="../static/js/responsive.menu.js"></script>
-         </div>		  
-	<div class="clear"></div>
-</div>
-</div>
-</div>
+{% endblock %}
+
+
+{% block body %}
+	{{ super() }}
 <!-- start slider -->
-			<div id="da-slider" class="da-slider">
-				<div class="da-slide">
-					<h2>welcome to Marketplace</h2>
-					<p>We sell stuff!</p>
-					<a href="details.html" class="da-link">shop now</a>
-					<div class="da-img"><img src="../static/images/slider1.png" alt="image01" /></div>
-				</div>
-				
-			</div>
-        </div>
-
-</div>
-
-<!-- start footer -->
-<div class="footer_bg1">
-<div class="wrap">
-	<div class="footer">
-		<!-- scroll_top_btn -->
-	    <script type="text/javascript">
-			$(document).ready(function() {
-			
-				var defaults = {
-		  			containerID: 'toTop', // fading element id
-					containerHoverID: 'toTopHover', // fading element hover id
-					scrollSpeed: 1200,
-					easingType: 'linear' 
-		 		};
-				
-				
-				$().UItoTop({ easingType: 'easeOutQuart' });
-				
-			});
-		</script>
-		 <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>
-		<!--end scroll_top_btn -->
-		<div class="copy">
-			<p class="link">&copy;  Made in&nbsp;&nbsp;<a href="https://adicu.com/labs"> ADI Labs</a></p>
-		</div>
-		<div class="clear"></div>
+<div id="da-slider" class="da-slider">
+	<div class="da-slide">
+		<h2>welcome to Marketplace</h2>
+		<p>We sell stuff!</p>
+		<a href="details.html" class="da-link">shop now</a>
 	</div>
+	<div class="da-img"><img src="../static/images/cart_main.png" alt="image01" /></div>
 </div>
-</div>
-</body>
-</html>
+{% endblock %}
+

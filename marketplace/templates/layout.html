@@ -1,0 +1,83 @@
+<!--http://www.cssreset.com/how-to-keep-footer-at-bottom-of-page-with-css/ -->	
+<!DOCTYPE HTML>
+
+<head>
+    {% block head %}
+	<title>Marketplace</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet' type='text/css'>
+	<link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+    {% endblock %}
+</head>
+
+
+<body>
+<div class="wrapper">
+  	<div class="main_content">
+   
+    	<!-- start header -->
+		<div class="header">
+			<div class="logo">
+				<a href="{{ url_for('.home_page') }}">Marketplace </a>
+			</div>
+
+			
+			<div class="login_icon">	
+				<a class="btn" href="{{ url_for('.login_page') }}"> Login </a>
+				<!-- <a class="btn" href="/"> Login </a> -->
+			</div>
+
+
+			<div class="h_search">
+				<form>
+					<input type="text" value="">
+					<input type="submit" value="">
+				</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div class="menu_bar">
+			<div class="h_menu">
+				<ul>
+					<li><a href="index.html">Home</a></li>
+					<li class="separator">|</li>
+
+					<li><a href="{{ url_for('.list_page') }}">all</a></li>
+					<li class="separator">|</li>
+
+					<li><a href="handbags.html">textbook</a></li>
+					<li class="separator">|</li>
+					
+					<li><a href="accessories.html">price</a></li> 
+					<li class="separator">|</li>
+
+					<li><a href="accessories.html">price</a></li> 			
+					<li class="separator">|</li>
+
+					<li><a href="accessories.html">price</a></li> 				
+				
+				</ul>
+			</div>
+			<div class="clear"></div>
+
+  	{% block body %}{% endblock %}
+
+
+  	<!-- start footer -->
+	<div class="footer_home">
+		 <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>
+		<!--end scroll_top_btn -->
+		<div class="copy">
+			<p class="link">&copy;  Made in&nbsp;&nbsp;<a href="https://adicu.com/labs"> ADI Labs</a></p>
+		</div>
+		<div class="clear"></div>
+	</div>
+  	{% block scripts %}{% endblock %}
+	
+	</div>
+</div>
+</body>
+

@@ -16,26 +16,50 @@
 <body>
 <div class="wrapper">
   	<div class="main_content">
-   
+   		{% if  session.logged_in %}
+	  		<div class="alert-container">
+			    <div class="alert">
+			        We couldn't register you. Make sure you use a Columbia or Barnard email 
+			    </div>
+			    <div id="alert-close">
+			        &times;
+			    </div>
+			</div>
+		{% else %}
+			<!-- {% if session.logged_in is not defined %}
+				none
+			{% endif %} -->
+		{% endif %}
+
     	<!-- start header -->
 		<div class="header">
 			<div class="logo">
 				<a href="{{ url_for('.home_page') }}">Marketplace </a>
 			</div>
 
-			
+
+			{% if session.logged_in %}
 			<div class="login_icon">	
-				<a class="btn" href="{{ url_for('.login_page') }}"> Login </a>
+				<a class="btn" href="/login/google"> logout </a>
 				<!-- <a class="btn" href="/"> Login </a> -->
 			</div>
 
+			{% else %}
+			<div class="login_icon">	
+				<a class="btn" href="/login/google"> Login </a>
+				<!-- <a class="btn" href="/"> Login </a> -->
+			</div>
+			{% endif %}
 
+
+			<!-- search bar -->
 			<div class="h_search">
 				<form>
 					<input type="text" value="">
 					<input type="submit" value="">
 				</form>
 			</div>
+
 			<div class="clear"></div>
 		</div>
 

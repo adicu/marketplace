@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, json, request, redirect
+from flask import Blueprint, jsonify, render_template, json, request, redirect, url_for
 from marketplace import db, flow
 from marketplace.models import User
 from oauth2client.client import OAuth2WebServerFlow
@@ -64,7 +64,7 @@ def signin(email):
         return jsonify(data=[user.serialize for user in matching_users])
     return "Error!"
 
-
+@auth.route('/')
 def register(email):
     """
     Register a new user.
@@ -78,6 +78,6 @@ def register(email):
         user = User(email, 50.0, 0)
         db.session.add(user)
         db.session.commit()
-        return "Welcome to Marketplace!"
+        return redirect(url_for('.home_page'))
     except Exception:
-        return "We couldn't register you. Make sure you use a Columbia or Barnard email."
+        return render_template('index.html')

@@ -20,10 +20,10 @@ app.config.update(
 db = SQLAlchemy(app)
 
 # Create the login flow
-flow = OAuth2WebServerFlow(client_id='1077285924024-51aofukoknvs52a6tlsa8oetfdsecsgp.apps.googleusercontent.com',
-                       client_secret='dgQpe2OD1_rJDw66cKMv_OXc',
-                       scope='https://www.googleapis.com/auth/userinfo.email',
-                       redirect_uri='http://localhost:5000/login/google')
+flow = OAuth2WebServerFlow(client_id=app.config['GOOGLE_LOGIN_CLIENT_ID'],
+                           client_secret=app.config['GOOGLE_LOGIN_CLIENT_SECRET'],
+                           scope='https://www.googleapis.com/auth/userinfo.email',
+                           redirect_uri='http://localhost:5000/login/google')
 
 # Register our routes
 from marketplace.routes.home import home

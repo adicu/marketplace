@@ -1,0 +1,12 @@
+{% from "__formhelpers.html" import render_field %}
+<form method=post action="/sell_item">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.condition) }}
+    {{ render_field(form.price) }}
+    {{ render_field(form.image) }}
+    {{ render_field(form.accept_terms) }}
+  </dl>
+  <p><input type="submit" value="Sell it!"></p>
+</form>

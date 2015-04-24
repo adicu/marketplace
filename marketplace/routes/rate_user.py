@@ -38,6 +38,7 @@ def rate_a_user(user_id, item_id, rating):
 
 
 @rate_user.route('/user_rating/<user_id>')
+@login_required
 def user_rating(user_id):
     matching_users = User.query.filter_by(user_id=user_id).all()
     if len(matching_users) == 0:

@@ -26,7 +26,7 @@ def sell_item():
         insert_item(form.name.data, form.description.data,
                     form.condition.data, "boo", form.price.data)
         return "Item added"
-    return render_template('insert_item.html', form=form)
+    return render_template('sell.html', form=form)
 
 
 @insert.route('/mark_sold/<item_id>/<sold_to>')

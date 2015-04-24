@@ -1,6 +1,5 @@
 <!--http://www.cssreset.com/how-to-keep-footer-at-bottom-of-page-with-css/ -->	
 <!DOCTYPE HTML>
-
 <head>
     {% block head %}
 	<title>Marketplace</title>
@@ -12,47 +11,40 @@
     {% endblock %}
 </head>
 
-
 <body>
 <div class="wrapper">
   	<div class="main_content">
-   		{% if  session.logged_in %}
+   		{% if error_message is defined %}
 	  		<div class="alert-container">
 			    <div class="alert">
-			        We couldn't register you. Make sure you use a Columbia or Barnard email 
+			        {{ error_message }}
 			    </div>
 			    <div id="alert-close">
 			        &times;
 			    </div>
 			</div>
-		{% else %}
-			<!-- {% if session.logged_in is not defined %}
-				none
-			{% endif %} -->
 		{% endif %}
 
-    	<!-- start header -->
+    	<!-- Page header -->
 		<div class="header">
 			<div class="logo">
-				<a href="{{ url_for('.home_page') }}">Marketplace </a>
+				<a href="{{ url_for('home.home_page') }}">Marketplace </a>
 			</div>
 
 
 			{% if session.logged_in %}
 			<div class="login_icon">	
-				<a class="btn" href="/login/google"> logout </a>
-				<!-- <a class="btn" href="/"> Login </a> -->
+				<a class="btn" href="{{ url_for('auth.logout') }}"> Logout </a>
 			</div>
 
 			{% else %}
 			<div class="login_icon">	
-				<a class="btn" href="/login/google"> Login </a>
-				<!-- <a class="btn" href="/"> Login </a> -->
+				<a class="btn" href="{{ url_for('auth.google_login') }}"> Login </a>
 			</div>
 			{% endif %}
 
 
-			<!-- search bar -->
+			<!-- Search bar -->
 			<div class="h_search">
 				<form>
 					<input type="text" value="">
@@ -69,7 +61,7 @@
 					<li><a href="index.html">Home</a></li>
 					<li class="separator">|</li>
 
-					<li><a href="{{ url_for('.list_page') }}">all</a></li>
+					<li><a href="test.html">all</a></li>
 					<li class="separator">|</li>
 
 					<li><a href="handbags.html">textbook</a></li>
@@ -87,10 +79,10 @@
 			</div>
 			<div class="clear"></div>
 
-  	{% block body %}{% endblock %}
+  	{% block body %}
+  	{% endblock %}
 
-
-  	<!-- start footer -->
+  	<!-- Start footer -->
 	<div class="footer_home">
 		 <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>
 		<!--end scroll_top_btn -->
@@ -99,7 +91,9 @@
 		</div>
 		<div class="clear"></div>
 	</div>
-  	{% block scripts %}{% endblock %}
+
+  	{% block scripts %}
+  	{% endblock %}
 	
 	</div>
 </div>

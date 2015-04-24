@@ -9,38 +9,18 @@
 {% block body %}
 	{{ super() }}
 
+{% from "__formhelpers.html" import render_field %}
 
-<form action="" method="post" class="basic-grey">
-    <h1>Details</h1>
-
-    <!--  upload image !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-    <label>
-        <span>Item Name :</span>
-        <input id="name" type="text" name="name" placeholder="Name" />
-    </label>
-    
-    <label>
-        <span>Price :</span>
-        <input id="email" type="email" name="email" placeholder="$$" />
-    </label>
-    
-    <label>
-        <span>Description :</span>
-        <textarea id="message" name="message" placeholder="Pitch!"></textarea>
-    </label> 
-    <label>
-        <span>Condition :</span>
-        <select name="selection">
-	        <option value="Job Inquiry">Like New</option>
-	        <option value="General Question">alright</option>
-	        <option value="General Question">Old</option>
-        </select>
-    </label>    
-    <label>
-        <span>&nbsp;</span> 
-        <input type="button" class="button" value="Send" /> 
-    </label>    
+<form method="post" action="/sell_item" class="basic-grey">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.condition) }}
+    {{ render_field(form.price) }}
+    {{ render_field(form.image) }}
+    {{ render_field(form.accept_terms) }}
+  </dl>
+  <p><input type="submit" value="Sell it!"></p>
 </form>
-
 
 {% endblock %}

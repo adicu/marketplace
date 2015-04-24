@@ -15,11 +15,10 @@ CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
 
 
 @auth.route("/logout")
-@login_required
 def logout():
     session.pop("username", None)
     session["logged_in"] = False
-    return "Logged out."
+    return redirect(url_for('home.home_page'))
 
 
 @auth.route("/session_test")
@@ -45,7 +44,8 @@ def google_login():
         email = data["emails"][0]["value"]
         return signin(email)
     elif error:  # Google login returned an error; alert the user
-        return render_template("index.html", error_message="An error occcurred authenticating you.")
+        #home.home_page_error("An error occcurred authenticating you.")
+        return redirect(url_for('home.home_page'))
     else:  # We just got to the code in the first place
         return redirect(flow.step1_get_authorize_url())
 
@@ -61,26 +61,28 @@ def signin(email):
     elif matches == 1:
         session["username"] = matching_users[0].user_id
         session["logged_in"] = True
-        return jsonify(data=[user.serialize for user in matching_users])
-    return "Error!"
+        return redirect(url_for('home.home_page'))
+    #home.home_page_error("Error signing in!")
+    return redirect(url_for('home.home_page'))
 
 
 def register(email):
     """
     Register a new user.
     """
-    try:
-        # Catch regex
-        regex_result = re.match(CU_EMAIL_REGEX, email)
-        if not regex_result:
-            raise NameError("Invalid e-mail")
+    # Catch regex errors
+    regex_result = re.match(CU_EMAIL_REGEX, email)
+    if not regex_result:
+        return redirect(url_for('home.home_page'))
+        #home.home_page_error("Please login with a Columbia or Barnard provided email.")
+        return
 
-        user = User(email, 0, 0)
-        db.session.add(user)
-        db.session.commit()
+    user = User(email, 0, 0)
+    db.session.add(user)
+    db.session.commit()
 
-        session["username"] = email
-        session["logged_in"] = True
-        return "Welcome to Marketplace!"
-    except Exception:
-        return "We couldn't register you. Make sure you use a Columbia or Barnard email."
+    session["username"] = email
+    session["logged_in"] = True
+
+    return redirect(url_for('home.home_page'))
+    #home.home_page_error("Welcome to Marketplace!")

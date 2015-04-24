@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify, render_template, json, request, redirect, url_for
-from marketplace import db, flow
+from flask import Blueprint, jsonify, render_template, json, request, redirect, session, url_for
+from marketplace import db, flow, login_required
 from marketplace.models import User
+from marketplace.routes import home
 from oauth2client.client import OAuth2WebServerFlow
 from datetime import date, datetime
 from flask.ext.restful import reqparse  # Parse through requests
@@ -11,6 +12,22 @@ auth = Blueprint('auth', __name__)
 
 # From Density project
 CU_EMAIL_REGEX = r"^(?P<uni>[a-z\d]+)@.*(columbia|barnard)\.edu$"
+
+
+@auth.route("/logout")
+@login_required
+def logout():
+    session.pop("username", None)
+    session["logged_in"] = False
+    return "Logged out."
+
+
+@auth.route("/session_test")
+def session_test():
+    if "username" in session:
+        return session["username"]
+    else:
+        return "You're not logged in."
 
 
 @auth.route("/login/google")
@@ -28,28 +45,9 @@ def google_login():
         email = data["emails"][0]["value"]
         return signin(email)
     elif error:  # Google login returned an error; alert the user
-        return error
+        return render_template("index.html", error_message="An error occcurred authenticating you.")
     else:  # We just got to the code in the first place
         return redirect(flow.step1_get_authorize_url())
-
-
-@auth.route('/rate_user/<user_id>/<rating>')
-def rate_user(user_id, rating):
-    # Get matching users
-    rating = int(rating)
-    matching_users = User.query.filter_by(user_id=user_id).all()
-    if len(matching_users) == 0:
-        return "No matching users found!"
-    matching_users[0].num_ratings += 1
-    if rating > 0:
-        matching_users[0].rating_value += 1
-    elif rating < 0:
-        matching_users[0].rating_value -= 1
-    db.session.commit()
-
-    # Percent formula is here (average is 0.5)
-    return "New rating achieved; percent is: " \
-           + str(float(matching_users[0].rating_value) / float(2 * matching_users[0].num_ratings) + 0.5)
 
 
 def signin(email):
@@ -61,10 +59,12 @@ def signin(email):
     if matches == 0:
         return register(email)
     elif matches == 1:
+        session["username"] = matching_users[0].user_id
+        session["logged_in"] = True
         return jsonify(data=[user.serialize for user in matching_users])
     return "Error!"
 
-@auth.route('/')
+
 def register(email):
     """
     Register a new user.
@@ -75,9 +75,12 @@ def register(email):
         if not regex_result:
             raise NameError("Invalid e-mail")
 
-        user = User(email, 50.0, 0)
+        user = User(email, 0, 0)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('.home_page'))
+
+        session["username"] = email
+        session["logged_in"] = True
+        return "Welcome to Marketplace!"
     except Exception:
-        return render_template('index.html')
+        return "We couldn't register you. Make sure you use a Columbia or Barnard email."

@@ -32,6 +32,7 @@ pip install -r /vagrant/config/requirements.txt
 pip install flake8 # For local testing
 pip install SQLAlchemy # Install SQLAlchemy
 pip install flask-restful # Request parsing
+pip install wtforms  # Forms!
 
 # Install Vim
 apt-get install vim
